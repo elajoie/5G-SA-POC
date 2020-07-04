@@ -1,9 +1,0 @@
----
-- name: KVM Setup
-  hosts: kvm01
-  vars_files:
-    - play_vars.yml
-    - kvm-system-roles-network.yml
-  roles:
-# On a RHEL system this would be rhel-system-roles.networking
-    - rhel-system-roles.network
