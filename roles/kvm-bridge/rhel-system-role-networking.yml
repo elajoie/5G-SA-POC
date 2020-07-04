@@ -1,0 +1,4 @@
+---
+- name: KVM Setup
+  roles:
+    - rhel-system-roles.network
