@@ -1,4 +1,5 @@
 ---
 - name: KVM Setup
+  hosts: '{{ target }}'
   roles:
     - rhel-system-roles.network
