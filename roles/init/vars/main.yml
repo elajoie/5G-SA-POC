@@ -184,7 +184,7 @@ mount_point: /tmp/iso
 efi_dir: "{{ mount_point }}/EFI/BOOT"
 bios_dir: /usr/share/syslinux
 boot_dir: "{{ mount_point }}/images/pxeboot"
-boot_iso: rhel-8.2-x86_64-boot.iso
+boot_iso: rhel8.2.iso
 rhel_version: RHEL-8.2
 
 efifiles:
@@ -193,7 +193,7 @@ efifiles:
 biosfiles:
   - pxelinux.0
   - ldlinux.c32
-bootfiles:
+rhel_bootfiles:
   - initrd.img
   - vmlinuz
 tftp_dir: /var/lib/tftpboot

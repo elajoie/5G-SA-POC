@@ -29,6 +29,8 @@
 #        src: "{{ boot_iso }}"
 #        dest: "/var/www/html/{{ boot_iso }}"
 
+# https://wiki.fogproject.org/wiki/index.php/BIOS_and_UEFI_Co-Existence
+
     - name: Mount boot iso read-only
       mount:
         path: "{{ mount_point }}"
@@ -37,19 +39,52 @@
         opts: ro,noauto
         state: mounted
 
-    - name: Copy over files for UEFI
+    - name: Copy over files for PXE UEFI
       copy:
         remote_src: yes
         src: "{{ efi_dir }}/{{ item }}"
         dest: "{{ tftp_dir }}/uefi/{{ item }}"
       with_items: "{{ efifiles }}"
 
-    - name: Copy over files for bios
+    - name: Copy over files for PXE bios
       copy:
         remote_src: yes
         src: "{{ bios_dir }}/{{ item }}"
         dest: "{{ tftp_dir }}/pxelinux/{{ item }}"
       with_items: "{{ biosfiles }}"
+
+    - name: Copy over files for {{ rhel_version }} repos
+      copy:
+        remote_src: yes
+        src: "{{ mount_point }}/images"
+        dest: "/var/www/html/{{ rhel_version }}/"
+
+    - name: Copy over files for {{ rhel_version }} booting
+      copy:
+        remote_src: yes
+        src: "{{ boot_dir }}{{ item }}"
+        dest: "{{ tftp_dir }}/{{ rhel_version}}/{{ item }}"
+      with_items: "{{ rhel_bootfiles }}"
+
+    - name: Template a file for kickstart onto http server
+      template:
+        src: ks.cfg.j2
+        dest: /var/www/html/kickstarts/ks.cfg
+
+    - name: Template a file for grub menu onto tftp server
+      template:
+        src: grub.cfg.j2
+        dest: "{{ tftp_dir }}/uefi/grub.cfg"
+
+    - name: Template a file for custom kickstart onto http server
+      template:
+        src: ks.cfg-mac.j2
+        dest: "/var/www/html/kickstarts/ks.cfg-01-{{ hostvars[item]['ethernet'] | hwaddr('eui48') | lower }}"
+        mode: '755'
+      with_items:
+        - "{{ nodes.masters }}"
+        - "{{ nodes.workers }}"
+        - "{{ nodes.bootstrap }}"
 
     - name: Set up BIOS cfg boot files
       template:

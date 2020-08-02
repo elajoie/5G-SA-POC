@@ -8,4 +8,4 @@
 - include_tasks: "ocp-secret.yml"
 #- include_tasks: "ocp-nfs.yml"
 # Manually copy over the RHEL ISO file to HTTPD root folder now unles you do it through other method
-#- include_tasks: "ocp-pxe.yml"
+- include_tasks: "ocp-pxe.yml"

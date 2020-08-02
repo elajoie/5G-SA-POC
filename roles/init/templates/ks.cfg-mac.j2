@@ -1,0 +1,21 @@
+ignoredisk --only-use={{ item.disk }}
+clearpart --all --initlabel --drives={{ item.disk }}
+part /boot/efi --fstype=efi --grow --maxsize=200 --size=20
+part / --fstype=xfs --grow
+
+graphical
+lang en_US.UTF-8
+sshkey  --username=root "{{ vault_sshkey }}"
+network --bootproto=static --ip={{ item.ipaddr }} --netmask={{ item.netmask }} --gateway={{ item.gw }} --nameserver={{ srv_ip }} --device={{ item.nic_pxe }} --ipv6=auto --activate
+network --hostname={{ item.name }}.{{ domain_name }}
+
+keyboard us
+rootpw {{ vault_rootpasswd }}
+timezone UTC
+zerombr
+
+rhsm --organization="{{ vault_orgid }}" --activation-key="{{ vault_actkey }}"
+reboot
+%packages
+@^minimal-environment
+%end
