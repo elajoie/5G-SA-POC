@@ -4,6 +4,14 @@
   dnf:
     name: virt-install
     state: latest
+  
+- name: Clean out old bootstrap
+  command: "virsh destroy bootstrap"
+  ignore_errors: yes
+
+- name: Clean out old bootstrap
+  command: "virsh undefine bootstrap"
+  ignore_errors: yes
 
 - name: Setup OCP bootstrap VM
   command: "virt-install
