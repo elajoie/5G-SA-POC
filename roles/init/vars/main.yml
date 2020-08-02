@@ -193,6 +193,7 @@ efifiles:
 biosfiles:
   - pxelinux.0
   - ldlinux.c32
+  - vesamenu.c32
 rhel_bootfiles:
   - initrd.img
   - vmlinuz
