@@ -1,6 +1,6 @@
 ---
 # tasks file for ocp-prereq-role
-#- include_vars: "vault"
+- include_vars: "vault"
 #- include_tasks: "ocp-dns.yml"
 #- include_tasks: "ocp-http.yml"
 #- include_tasks: "ocp-dhcp.yml"
