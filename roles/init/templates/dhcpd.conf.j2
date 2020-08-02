@@ -27,6 +27,14 @@ subnet {{ dhcp.subnet }} netmask {{ dhcp.netmask }} {
     }
 }
 
+subnet 172.16.66.0 netmask 255.255.255.0 {
+    range dynamic-bootp 172.16.66.100 172.16.66.254;
+    option domain-name     "auto.local";
+    option domain-name-servers     172.16.66.2;
+    option broadcast-address 172.16.66.255;
+}
+
+
 {% for b in nodes.bootstrap %}
 host {{ b.name }} {
 	option host-name "{{ b.name }}.{{ baseName }}.{{ baseDomain }}";
@@ -51,6 +59,13 @@ host {{ w.name }} {
 }
 {% endfor %}
 
+{% for e in nodes.extra %}
+host {{ e.name }} {
+	option host-name "{{ e.name }}.{{ baseName }}.{{ baseDomain }}";
+	hardware ethernet {{ e.macaddr }};
+	fixed-address {{ e.ipaddr }};
+}
+{% endfor %}
  
 
 

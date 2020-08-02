@@ -20,6 +20,9 @@ api-int IN A {{ srv_ip  }}
 {% for w in nodes.workers %}
 {{ w.name }} IN A {{ w.ipaddr }}
 {% endfor %}
+{% for e in nodes.extra %}
+{{ e.name }} IN A {{ e.ipaddr }}
+{% endfor %}
 {% for m in nodes.masters %}
 etcd-{{ loop.index0 }} IN A {{ m.ipaddr }}
 {% endfor %}
