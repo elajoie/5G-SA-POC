@@ -9,6 +9,10 @@
   command: "virsh destroy bootstrap"
   ignore_errors: yes
 
+- name: Clean out old bootstrap images
+  command: "rm -f /var/lib/libvirt/images/bootstrap*"
+  ignore_errors: yes
+
 - name: Clean out old bootstrap
   command: "virsh undefine bootstrap"
   ignore_errors: yes
