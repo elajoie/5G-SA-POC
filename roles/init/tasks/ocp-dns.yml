@@ -28,6 +28,7 @@
         group: named
         mode: '0640'
 
+# https://ftp.eenet.ee/pub/isc/dnssec-guide/html/dnssec-guide.html#validation-easy-start-explained
     - name: Replace root key with our own
       copy:
         content: 'trusted-keys {. initial-key 257 3 8 "AwEAAaz/tAm8yTn4Mfeh5eyI96WSVexTBAvkMgJzkKTOiW1vkIbzxeF3
@@ -62,6 +63,14 @@
       template:
         src: reverse.j2
         dest: /var/named/named.lab.local.reverse
+        owner: root
+        group: named
+        mode: '0640'
+
+    - name: Copy over file for blackhole of ads
+      copy:
+        src: /var/named/named.empty
+        dest: /var/named/null.zone.file
         owner: root
         group: named
         mode: '0640'
