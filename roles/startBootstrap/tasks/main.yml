@@ -14,6 +14,6 @@
     --vcpus 4
     --os-type linux
     --os-variant rhel8.2
-    --network network=ServicesTrunk,mac=52:54:00:d8:6f:16
+    --network network=br0,mac=52:54:00:d8:6f:16
     --pxe
     --noautoconsole"

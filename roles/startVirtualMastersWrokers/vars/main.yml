@@ -1,7 +1,7 @@
 ---
-srv_interface: "enp7s0"
-srv_ip: "172.16.0.7"
-nodes_subnet24: "172.16.0"
+srv_interface: "enp3s0"
+srv_ip: "192.168.1.2"
+nodes_subnet24: "192.168.1"
 baseName: "lab"
 baseDomain: "local"
 
@@ -10,84 +10,146 @@ nodes:
     - name: "bootstrap"
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.10"
       netmask: "255.255.255.0"
-      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.254"
+      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
       macaddr: "52:54:00:d8:6f:16"
       disk: "vda"
-      boot: "bios"
+      boot: "uefi"
       nic_pxe: enp1s0
   masters:
     - name: "master1"
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.11"
       netmask: "255.255.255.0"
-      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.254"
+      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
       macaddr: "0c:c4:7a:20:60:c8"
-      disk: "sda"
-      boot: "bios"
-      nic_pxe: ens1f0
+      disk: "vda"
+      boot: "uefi"
+      nic_pxe: enp1s0
     - name: "master2"
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.12"
       netmask: "255.255.255.0"
-      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.254"
+      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
       macaddr: "0c:c4:7a:20:61:c8"
-      disk: "sda"
-      boot: "bios"
-      nic_pxe: ens1f0
+      disk: "vda"
+      boot: "uefi"
+      nic_pxe: enp1s0
     - name: "master3"
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.13"
       netmask: "255.255.255.0"
-      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.254"
+      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
       macaddr: "3c:fd:fe:9e:7e:21"
-      disk: "sda"
+      disk: "vda"
       boot: "uefi"
-      nic_pxe: ens803f1
+      nic_pxe: enp1s0
   workers:
     - name: "worker1"
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.21"
       netmask: "255.255.255.0"
-      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.254"
+      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
       macaddr: "3c:fd:fe:9e:7b:a9"
-      disk: "sda"
+      disk: "vda"
       boot: "uefi"
-      nic_pxe: ens803f1
+      nic_pxe: enp1s0
     - name: "worker2"
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.22"
       netmask: "255.255.255.0"
-      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.254"
+      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
       macaddr: "3c:fd:fe:aa:46:60"
-      disk: "sda"
+      disk: "vda"
       boot: "uefi"
-      nic_pxe: ens802f0
+      nic_pxe: enp1s0
     - name: "worker3"
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.23"
       netmask: "255.255.255.0"
-      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.254"
+      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
       macaddr: "3c:fd:fe:ab:b0:38"
-      disk: "nvme0n1"
+      disk: "vda"
       boot: "uefi"
-      nic_pxe: ens786f0
-    - name: "worker4"
-      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.24"
+      nic_pxe: enp1s0
+  extra:
+    - name: "netsrv"
+      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.2"
       netmask: "255.255.255.0"
-      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.254"
-      macaddr: "3c:fd:fe:ab:a6:81"
+      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
+      macaddr: "1c:69:7a:38:a9:87"
       disk: "nvme0n1"
       boot: "uefi"
-      nic_pxe: ens786f1
-    - name: "worker5"
-      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.25"
+    - name: "kvm1"
+      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.3"
       netmask: "255.255.255.0"
-      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.254"
-      macaddr: "3c:fd:fe:ab:b3:71"
+      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
+      macaddr: "10:7b:44:91:a2:7c"
       disk: "nvme0n1"
       boot: "uefi"
-      nic_pxe: ens786f1
+    - name: "sat"
+      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.5"
+      netmask: "255.255.255.0"
+      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
+      macaddr: "52:54:00:17:e1:87"
+      disk: "vda"
+      boot: "bios"
+    - name: "tower"
+      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.6"
+      netmask: "255.255.255.0"
+      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
+      macaddr: "52:54:00:f5:b5:fa"
+      disk: "vda"
+      boot: "bios"
+    - name: "cloudkey"
+      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.30"
+      netmask: "255.255.255.0"
+      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
+      macaddr: "74:83:c2:17:45:53"
+      disk: "sda"
+      boot: "bios"
+    - name: "switch1"
+      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.31"
+      netmask: "255.255.255.0"
+      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
+      macaddr: "fc:ec:da:78:ad:ed"
+      disk: "sda"
+      boot: "bios"
+    - name: "switch2"
+      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.32"
+      netmask: "255.255.255.0"
+      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
+      macaddr: "f0:9f:c2:68:26:ee"
+      disk: "sda"
+      boot: "bios"
+    - name: "lowerap"
+      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.33"
+      netmask: "255.255.255.0"
+      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
+      macaddr: "74:83:c2:da:2e:0c"
+      disk: "sda"
+      boot: "bios"
+    - name: "upperap"
+      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.34"
+      netmask: "255.255.255.0"
+      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
+      macaddr: "74:83:c2:da:2e:6c"
+      disk: "sda"
+      boot: "bios"
+    - name: "iptv"
+      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.35"
+      netmask: "255.255.255.0"
+      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
+      macaddr: "ac:6f:bb:5d:58:d6"
+      disk: "sda"
+      boot: "bios"
+    - name: "nas1"
+      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.20"
+      netmask: "255.255.255.0"
+      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
+      macaddr: "00:11:32:b4:b2:a3"
+      disk: "sda"
+      boot: "bios"
 
 dhcp:
-  gateway: "{{ nodes_subnet24 | default ('192.168.126')}}.254"
+  gateway: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
   broadcast: "{{ nodes_subnet24 | default ('192.168.126')}}.255"
   netmask: "255.255.255.0"
   poolstart: "{{ nodes_subnet24 | default ('192.168.126')}}.128"
-  poolend: "{{ nodes_subnet24 | default ('192.168.126')}}.252"
+  poolend: "{{ nodes_subnet24 | default ('192.168.126')}}.254"
   subnet: "{{ nodes_subnet24 | default ('192.168.126')}}.0"
 
 ocp_mirror: "https://mirror.openshift.com/pub/openshift-v4"
@@ -122,7 +184,7 @@ mount_point: /tmp/iso
 efi_dir: "{{ mount_point }}/EFI/BOOT"
 bios_dir: /usr/share/syslinux
 boot_dir: "{{ mount_point }}/images/pxeboot"
-boot_iso: rhel-8.2-x86_64-boot.iso
+boot_iso: rhel8.2.iso
 rhel_version: RHEL-8.2
 
 efifiles:
@@ -131,14 +193,14 @@ efifiles:
 biosfiles:
   - pxelinux.0
   - ldlinux.c32
-bootfiles:
+rhel_bootfiles:
   - initrd.img
   - vmlinuz
 tftp_dir: /var/lib/tftpboot
 folders_pxe:
+  - "{{ tftp_dir }}"
   - "{{ tftp_dir }}/uefi"
-  - "{{ tftp_dir }}/images"
-  - "{{ tftp_dir }}/images/{{ rhel_version }}"
+  - "{{ tftp_dir }}/{{ rhel_version }}"
   - "{{ tftp_dir }}/pxelinux"
   - "{{ tftp_dir }}/pxelinux/pxelinux.cfg"
   - /var/www/html/images
