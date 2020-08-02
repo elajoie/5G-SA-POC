@@ -1,5 +1,4 @@
-ignoredisk --only-use=nvme0n1
-clearpart --all --initlabel --drives=nvme0n1
+clearpart --all --initlabel --drives=all
 graphical
 lang en_US.UTF-8
 sshkey  --username=root "{{ vault_sshkey }}"

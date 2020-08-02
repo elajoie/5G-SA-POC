@@ -88,13 +88,19 @@
 
     - name: Set up BIOS cfg boot files
       template:
-        src: all-default.j2
+        src: pxelinux.cfg-mac.j2
         dest: "{{ tftp_dir }}/pxelinux/pxelinux.cfg/01-{{ item.macaddr | hwaddr('eui48') | lower }}"
         mode: '755'
       with_items:
         - "{{ nodes.masters }}"
         - "{{ nodes.workers }}"
         - "{{ nodes.bootstrap }}"
+
+    - name: Set up BIOS cfg boot files
+      template:
+        src: pxelinux.cfg.j2
+        dest: "{{ tftp_dir }}/pxelinux/pxelinux.cfg/default
+        mode: '755'
 
     - name: Template a file for custom grub menu onto tftp server
       template:

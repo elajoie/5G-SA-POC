@@ -198,9 +198,9 @@ rhel_bootfiles:
   - vmlinuz
 tftp_dir: /var/lib/tftpboot
 folders_pxe:
+  - "{{ tftp_dir }}"
   - "{{ tftp_dir }}/uefi"
-  - "{{ tftp_dir }}/images"
-  - "{{ tftp_dir }}/images/{{ rhel_version }}"
+  - "{{ tftp_dir }}/{{ rhel_version }}"
   - "{{ tftp_dir }}/pxelinux"
   - "{{ tftp_dir }}/pxelinux/pxelinux.cfg"
   - /var/www/html/images
