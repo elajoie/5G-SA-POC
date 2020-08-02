@@ -14,7 +14,7 @@
     --vcpus 4
     --os-type linux
     --os-variant rhel8.2
-    --network network=ServicesTrunk,mac={{ item.macaddr }}
+    --network network=br0,mac={{ item.macaddr }}
     --boot uefi
     --pxe
     --noautoconsole"
