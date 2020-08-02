@@ -71,6 +71,7 @@
       copy:
         src: /var/named/named.empty
         dest: /var/named/null.zone.file
+        remote_src: yes
         owner: root
         group: named
         mode: '0640'
