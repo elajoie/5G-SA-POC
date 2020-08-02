@@ -14,35 +14,60 @@
     - name: Configure Firewalld
       ignore_errors: yes
       firewalld:
-        zone: public
+        zone: internal
         state: enabled
         permanent: yes
         immediate: yes
         service: dns
 
+    - name: Download root.hints
+      get_url:
+        url: https://www.internic.net/domain/named.root
+        dest: /var/named/named.ca
+        owner: root
+        group: named
+        mode: '0640'
+
+    - name: Replace root key with our own
+      copy:
+        content: ". IN DS 19036 8 2 49AAC11D7B6F6446702E54A1607371607A1A41855200FD2CE1CDDE32F24E8FB5\n. IN DS 20326 8 2 E06D44B80B8F1D39A95C0B0D7C65D08458E880409BBC683457104237C7F8EC8D"
+        dest: /etc/named.root.key
+        owner: root
+        group: named
+        mode: '0644'
+
     - name: Write out named file
       template:
         src: named.conf.j2
         dest: /etc/named.conf
-        owner: named
+        owner: root
         group: named
-        mode: '0755'
+        mode: '0640'
 
     - name: Write out "{{ baseName }}.{{ baseDomain }}" zone file
       template:
         src: zonefile.j2
-        dest: /var/named/zonefile.db
-        owner: named
+        dest: /var/named/named.lab.local.forward
+        owner: root
         group: named
-        mode: '0755'
+        mode: '0640'
 
     - name: Write out reverse zone file
       template:
         src: reverse.j2
-        dest: /var/named/reverse.db
-        owner: named
+        dest: /var/named/named.lab.local.reverse
+        owner: root
         group: named
-        mode: '0755'
+        mode: '0640'
+
+    - name: Copy over add blocking list
+      uri:
+        url: "https://pgl.yoyo.org/adservers/serverlist.php?hostformat=bindconfig&showintro=0&mimetype=plaintext"
+        follow_redirects: all
+        dest: /etc/named.adblock
+        owner: root
+        group: named
+        mode: '0640'
 
     - name: Set the local resolv.conf file
       template:
