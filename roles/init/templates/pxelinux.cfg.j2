@@ -4,7 +4,7 @@ TIMEOUT 20
 PROMPT 1
 LABEL rhcos
     KERNEL tftp://{{ srv_ip }}/kernel
-    APPEND ip=dhcp rd.neednet=1 initrd=tftp://{{ srv_ip }}/images/initramfs console=tty0 console=ttyS0 coreos.inst=yes coreos.inst.image_url=http://{{ srv_ip }}:8080/images/metal.raw.gz coreos.inst.ignition_url=http://{{ srv_ip }}:8080/ignition/worker.ign
+    APPEND ip=dhcp rd.neednet=1 initrd=tftp://{{ srv_ip }}/initramfs console=tty0 console=ttyS0 coreos.inst=yes coreos.inst.image_url=http://{{ srv_ip }}:8080/images/metal.raw.gz coreos.inst.ignition_url=http://{{ srv_ip }}:8080/ignition/worker.ign
 LABEL rhel
     KERNEL tftp://{{ srv_ip }}/{{ rhel_version }}/vmlinuz
     APPEND initrd=tftp://{{ srv_ip }}/{{ rhel_version }}/initrd.img ip=dhcp inst.repo=http://{{ srv_ip }}:8080/{{ rhel_version }}  inst.ks=http://{{ srv_ip }}:8080/kickstarts/ks.cfg
