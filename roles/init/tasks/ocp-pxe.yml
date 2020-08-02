@@ -99,7 +99,7 @@
     - name: Set up BIOS cfg boot files
       template:
         src: pxelinux.cfg.j2
-        dest: "{{ tftp_dir }}/pxelinux/pxelinux.cfg/default
+        dest: "{{ tftp_dir }}/pxelinux/pxelinux.cfg/default"
         mode: '755'
 
     - name: Template a file for custom grub menu onto tftp server
