@@ -7,7 +7,7 @@ graphical
 lang en_US.UTF-8
 sshkey  --username=root "{{ vault_sshkey }}"
 network --bootproto=static --ip={{ item.ipaddr }} --netmask={{ item.netmask }} --gateway={{ item.gw }} --nameserver={{ srv_ip }} --device={{ item.nic_pxe }} --ipv6=auto --activate
-network --hostname={{ item.name }}.{{ domain_name }}
+network --hostname={{ item.name }}.{{ baseName }}.{{ baseDomain }}
 
 keyboard us
 rootpw {{ vault_rootpasswd }}

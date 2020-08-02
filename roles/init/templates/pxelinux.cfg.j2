@@ -12,4 +12,4 @@ label RHCOS {{ ocp_release }}
 label {{ rhel_version }}
   menu label Install system with RHEL
   kernel tftp://{{ srv_ip }}/{{ rhel_version }}/vmlinuz
-  append initrd=tftp://{{ srv_ip }}/{{ rhel_version }}/initrd.img ip=dhcp inst.repo=http://{{ srv_ip }}:8080/{{ rhel_version }}  inst.ks=http://{{ srv_ip }}:8080/kickstarts/ks.cfg
+  append initrd=tftp://{{ srv_ip }}/{{ rhel_version }}/initrd.img ip=dhcp inst.repo=http://{{ srv_ip }}:8080/{{ rhel_version }} inst.ks=http://{{ srv_ip }}:8080/kickstarts/ks.cfg
