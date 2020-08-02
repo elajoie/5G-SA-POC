@@ -21,7 +21,7 @@
         permanent: yes
         state: enabled
         immediate: yes
-        zone: public
+        zone: internal
 
 #Put the boot iso in the web servers root directory manually when using tower
 #    - name: "Copy over iso file to tftp server - {{ ansible_facts['nodename'] }}"
