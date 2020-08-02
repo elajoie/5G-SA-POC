@@ -1,0 +1,8 @@
+FFFFFFFFFFFFF {{ item.macaddr }}
+DEFAULT pxeboot
+TIMEOUT 20
+PROMPT 0
+LABEL pxeboot
+    KERNEL tftp://{{ srv_ip }}/images/kernel
+    APPEND ip=dhcp rd.neednet=1 initrd=tftp://{{ srv_ip }}/images/initramfs console=tty0 console=ttyS0 coreos.inst=yes coreos.inst.install_dev={{ item.disk }} coreos.inst.image_url=http://{{ srv_ip }}:8080/images/metal.raw.gz coreos.inst.ignition_url=http://{{ srv_ip }}:8080/ignition/{{ item.name }}.ign
+FFFFFFFFFFFFF

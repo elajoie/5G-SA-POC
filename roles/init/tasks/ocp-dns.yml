@@ -1,0 +1,58 @@
+---
+# https://www.linuxtechi.com/setup-bind-server-centos-8-rhel-8/
+- name: Install DNS
+  become: true
+  tags: install
+  block:
+    - name: Install needed packages
+      dnf:
+        name:
+          - bind
+          - bind-utils
+        state: latest
+
+    - name: Configure Firewalld
+      ignore_errors: yes
+      firewalld:
+        zone: public
+        state: enabled
+        permanent: yes
+        immediate: yes
+        service: dns
+
+    - name: Write out named file
+      template:
+        src: named.conf.j2
+        dest: /etc/named.conf
+        owner: named
+        group: named
+        mode: '0755'
+
+    - name: Write out "{{ baseName }}.{{ baseDomain }}" zone file
+      template:
+        src: zonefile.j2
+        dest: /var/named/zonefile.db
+        owner: named
+        group: named
+        mode: '0755'
+
+    - name: Write out reverse zone file
+      template:
+        src: reverse.j2
+        dest: /var/named/reverse.db
+        owner: named
+        group: named
+        mode: '0755'
+
+    - name: Set the local resolv.conf file
+      template:
+        src: resolv.conf.j2
+        dest: /etc/resolv.conf
+
+    - name: Starting services
+      service:
+        name: "{{ item }}"
+        enabled: yes
+        state: restarted
+      with_items:
+        - named

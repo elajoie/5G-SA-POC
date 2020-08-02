@@ -1,5 +1,0 @@
----
-- name: Setting up DNS
-  hosts: all
-  roles:
-    - unbound

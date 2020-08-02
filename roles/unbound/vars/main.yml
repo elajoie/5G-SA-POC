@@ -1,7 +1,0 @@
----
-# vars file for unbound
-services:
-  - dns
-packages:
-  - unbound
-  - python3-netaddr

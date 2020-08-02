@@ -1,0 +1,133 @@
+#---------------------------------------------------------------------
+# Example configuration for a possible web application.  See the
+# full configuration options online.
+#
+#   http://haproxy.1wt.eu/download/1.4/doc/configuration.txt
+#
+#---------------------------------------------------------------------
+
+#---------------------------------------------------------------------
+# Global settings
+#---------------------------------------------------------------------
+global
+    log /dev/log local0
+    log /dev/log local1 debug
+
+    chroot      /var/lib/haproxy
+    pidfile     /var/run/haproxy.pid
+    maxconn     4000
+    user        haproxy
+    group       haproxy
+    daemon
+
+    # turn on stats unix socket
+    stats socket /var/lib/haproxy/stats
+
+defaults
+    mode                    tcp
+    log                     global
+    option                  tcplog
+    option                  dontlognull
+    option                  http-server-close
+    option                  redispatch
+    retries                 3
+    timeout http-request    10s
+    timeout queue           1m
+    timeout connect         10s
+    timeout client          1m
+    timeout server          1m
+    timeout http-keep-alive 10s
+    timeout check           10s
+    maxconn                 3000
+
+
+#---------------------------------------------------------------------
+
+listen stats
+    bind :9000
+    mode http
+    stats enable
+    stats uri /
+    monitor-uri /healthz
+
+frontend ssl-apiserver
+    bind *:6443
+    mode tcp
+    option tcplog
+    tcp-request inspect-delay 5s
+    tcp-request content accept if { req.ssl_hello_type 1 }
+    acl acl_api_server req.ssl_sni -m beg api.{{ baseName }}.{{ baseDomain }}
+    acl acl_api_int_server req.ssl_sni -m beg api-int.{{ baseName }}.{{ baseDomain }}
+    use_backend api_server if { req.ssl_sni -m beg api.{{ baseName }}.{{ baseDomain }} }
+    use_backend api_int_server if { req.ssl_sni -m beg api-int.{{ baseName }}.{{ baseDomain }} }
+
+backend api_server
+    mode tcp
+    option ssl-hello-chk
+{% for m in nodes.masters %}
+    server {{ m.name }} {{ m.name }}.{{ baseName }}.{{ baseDomain }}:6443 check
+{% endfor %}
+{% for b in nodes.bootstrap %}
+    server {{ b.name }} {{ b.name }}.{{ baseName }}.{{ baseDomain }}:6443 check
+{% endfor %}
+
+backend api_int_server
+    mode tcp
+    option ssl-hello-chk
+{% for m in nodes.masters %}
+    server {{ m.name }} {{ m.name }}.{{ baseName }}.{{ baseDomain }}:6443 check
+{% endfor %}
+{% for b in nodes.bootstrap %}
+    server {{ b.name }} {{ b.name }}.{{ baseName }}.{{ baseDomain }}:6443 check
+{% endfor %}
+
+
+frontend ssl_machineconfig
+    bind *:22623
+    mode tcp
+    default_backend machineconfig
+
+backend machineconfig
+    mode tcp
+{% for m in nodes.masters %}
+    server {{ m.name }} {{ m.name }}.{{ baseName }}.{{ baseDomain }}:22623 check
+{% endfor %}
+{% for b in nodes.bootstrap %}
+    server {{ b.name }} {{ b.name }}.{{ baseName }}.{{ baseDomain }}:22623 check
+{% endfor %}
+
+frontend http
+    bind {{ ansible_hostname }}.{{ baseName }}.{{ baseDomain }}:80
+    mode tcp
+    acl is_openshift_router hdr(host) -m dom .apps.{{ baseName }}.{{ baseDomain }}
+    use_backend openshift_router_http if is_openshift_router
+    default_backend bastion_http
+
+backend openshift_router_http
+    mode tcp
+{% for w in nodes.workers %}
+    server {{ w.name }} {{ w.name }}.{{ baseName }}.{{ baseDomain }}:80 check
+{% endfor %}
+
+backend bastion_http
+    mode tcp
+    server bastion 127.0.0.1:80
+
+frontend https
+    bind {{ ansible_hostname }}.{{ baseName }}.{{ baseDomain }}:443
+    mode tcp
+    option tcplog
+    tcp-request inspect-delay 5s
+    tcp-request content accept if { req.ssl_hello_type 1 }
+    use_backend openshift_router_https if { req.ssl_sni -m dom .apps.{{ baseName }}.{{ baseDomain }} }
+    default_backend bastion_https
+
+backend openshift_router_https
+    mode tcp
+{% for w in nodes.workers %}
+    server {{ w.name }} {{ w.name }}.{{ baseName }}.{{ baseDomain }}:443 check
+{% endfor %}
+
+backend bastion_https
+    mode tcp
+    server bastion 127.0.0.1:443

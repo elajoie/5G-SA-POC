@@ -1,0 +1,19 @@
+---
+# tasks file for createVMs
+- name: Install virt-install
+  dnf:
+    name: virt-install
+    state: latest
+
+- name: Setup OCP bootstrap VM
+  command: "virt-install
+    --name bootstrap
+    --disk size=120
+    --ram 16000
+    --cpu host
+    --vcpus 4
+    --os-type linux
+    --os-variant rhel8.2
+    --network network=ServicesTrunk,mac=52:54:00:d8:6f:16
+    --pxe
+    --noautoconsole"

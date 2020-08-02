@@ -1,0 +1,80 @@
+---
+- hosts: localhost
+#- name: Task to boot a sydddddstem using an ISO from an HP iLO interface only if the system is an HP server
+#  hpilo_boot:
+#    host: YOUR_ILO_ADDRESS
+#    login: YOUR_ILO_LOGIN
+#    password: YOUR_ILO_PASSWORD
+#    media: cdrom
+#    image: http://some-web-server/iso/boot.iso
+#  when: cmdb_hwmodel.startswith('HP ')
+#  delegate_to: localhost
+  tasks:
+  - name: Powering on or rebooting the server for PXE
+    hpilo_boot:
+      host: "{{ item }}"
+      login: "{{ vault_ipmiuser }}"
+      password: "{{ vault_ipmipass }}"
+      force: yes
+    delegate_to: localhost
+    with_items:
+      - 192.168.16.138
+      - 192.168.16.133
+
+  - name: Set servers to boot from disk as default
+    ipmi_boot:
+      name: "{{ item }}"
+      login: "{{ vault_ipmiuser }}"
+      password: "{{ vault_ipmipass }}"
+      bootdev: hd
+      persistent: yes
+    with_items:
+      - 192.168.16.129
+      - 192.168.16.130
+      - 192.168.16.131
+      - 192.168.16.132
+      - 192.168.16.136
+      - 192.168.16.137
+
+  - name: Set servers to power off
+    ipmi_power:
+      name: "{{ item }}"
+      login: "{{ vault_ipmiuser }}"
+      password: "{{ vault_ipmipass }}"
+      state: off
+    with_items:
+      - 192.168.16.129
+      - 192.168.16.130
+      - 192.168.16.131
+      - 192.168.16.132
+      - 192.168.16.136
+      - 192.168.16.137
+
+
+  - name: Set servers to boot from network on net boot
+    ipmi_boot:
+      name: "{{ item }}"
+      login: "{{ vault_ipmiuser }}"
+      password: "{{ vault_ipmipass }}"
+      bootdev: network
+    with_items:
+      - 192.168.16.129
+      - 192.168.16.130
+      - 192.168.16.131
+      - 192.168.16.132
+      - 192.168.16.136
+      - 192.168.16.137
+
+  - name: Set servers to power on
+    ipmi_power:
+      name: "{{ item }}"
+      login: "{{ vault_ipmiuser }}"
+      password: "{{ vault_ipmipass }}"
+      state: on
+    with_items:
+      - 192.168.16.129
+      - 192.168.16.130
+      - 192.168.16.131
+      - 192.168.16.132
+      - 192.168.16.136
+      - 192.168.16.137

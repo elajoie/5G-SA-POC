@@ -1,0 +1,33 @@
+---
+
+- name: Install HTTP server
+  become: true
+  tags: install
+  block:
+    - name: Install needed packages
+      dnf:
+        name:
+          - httpd
+        state: latest
+
+    - name: Configure Firewalld
+      ignore_errors: yes
+      firewalld:
+        zone: public
+        state: enabled
+        permanent: yes
+        port: "{{ item }}"
+      with_items:
+        - 8080/tcp
+
+    - name: SELinux role to allow HAProxy to access ports 8080
+      include_role:
+        name: rhel-system-roles.selinux
+
+    - name: Starting services
+      service:
+        name: "{{ item }}"
+        enabled: yes
+        state: restarted
+      with_items:
+        - httpd

@@ -1,0 +1,29 @@
+$TTL 1W
+@	IN	SOA	{{ ansible_hostname }}.{{ baseName }}.{{ baseDomain }}.	root (
+			{{ ansible_date_time.epoch }}	; serial
+			3H		; refresh (3 hours)
+			30M		; retry (30 minutes)
+			2W		; expiry (2 weeks)
+			1W )	; minimum (1 week)
+@	IN	NS	{{ ansible_hostname }}.{{ baseName }}.{{ baseDomain }}.
+;
+{{ ansible_hostname }} IN A {{ srv_ip }}
+api IN A {{ srv_ip }}
+api-int IN A {{ srv_ip  }}
+*.apps IN A {{ srv_ip }}
+{% for b in nodes.bootstrap %}
+{{ b.name }} IN A {{ b.ipaddr }}
+{% endfor %}
+{% for m in nodes.masters %}
+{{ m.name }} IN A {{ m.ipaddr }}
+{% endfor %}
+{% for w in nodes.workers %}
+{{ w.name }} IN A {{ w.ipaddr }}
+{% endfor %}
+{% for m in nodes.masters %}
+etcd-{{ loop.index0 }} IN A {{ m.ipaddr }}
+{% endfor %}
+{% for m in nodes.masters %}
+_etcd-server-ssl._tcp 3600 IN SRV 0 10 2380 etcd-{{ loop.index0 }}.{{ baseName }}.{{ baseDomain }}.
+{% endfor %}
+

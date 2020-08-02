@@ -1,0 +1,56 @@
+option domain-name     "{{ baseName }}.{{ baseDomain }}";
+option domain-name-servers     {{ srv_ip }};
+default-lease-time 600;
+max-lease-time 7200;
+authoritative;
+option space pxelinux;
+option pxelinux.magic code 208 = string;
+option pxelinux.configfile code 209 = text;
+option pxelinux.pathprefix code 210 = text;
+option pxelinux.reboottime code 211 = unsigned integer 32;
+option architecture-type code 93 = unsigned integer 16;
+
+subnet {{ dhcp.subnet }} netmask {{ dhcp.netmask }} {
+    range dynamic-bootp {{ dhcp.poolstart }} {{ dhcp.poolend }};
+    option broadcast-address {{ dhcp.broadcast }};
+    option routers {{ dhcp.gateway }};
+
+    class "pxeclients" {
+  	  match if substring (option vendor-class-identifier, 0, 9) = "PXEClient";
+  	  next-server {{ srv_ip }};
+
+  	  if option architecture-type = 00:00 {
+  	    filename "pxelinux/pxelinux.0";
+  	  } else {
+  	    filename "uefi/BOOTX64.EFI";
+  		}
+    }
+}
+
+{% for b in nodes.bootstrap %}
+host {{ b.name }} {
+	option host-name "{{ b.name }}.{{ baseName }}.{{ baseDomain }}";
+	hardware ethernet {{ b.macaddr }}; 
+	fixed-address {{ b.ipaddr }};
+}
+{% endfor %}
+
+{% for m in nodes.masters %}
+host {{ m.name }} {
+	option host-name "{{ m.name }}.{{ baseName }}.{{ baseDomain }}";
+	hardware ethernet {{ m.macaddr }};
+	fixed-address {{ m.ipaddr }};
+}
+{% endfor %}
+
+{% for w in nodes.workers %}
+host {{ w.name }} {
+	option host-name "{{ w.name }}.{{ baseName }}.{{ baseDomain }}";
+	hardware ethernet {{ w.macaddr }};
+	fixed-address {{ w.ipaddr }};
+}
+{% endfor %}
+
+ 
+
+

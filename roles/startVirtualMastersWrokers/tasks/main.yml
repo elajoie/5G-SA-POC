@@ -1,0 +1,23 @@
+---
+# tasks file for createVMs
+- name: Install virt-install
+  dnf:
+    name: virt-install
+    state: latest
+
+- name: Setup OCP Master and Worker VMs
+  command: "virt-install
+    --name {{ item.name }}
+    --disk size=120
+    --ram 16384
+    --cpu host
+    --vcpus 4
+    --os-type linux
+    --os-variant rhel8.2
+    --network network=ServicesTrunk,mac={{ item.macaddr }}
+    --boot uefi
+    --pxe
+    --noautoconsole"
+  with_items:
+    - "{{  nodes.masters  }}"
+    - "{{  nodes.workers  }}"

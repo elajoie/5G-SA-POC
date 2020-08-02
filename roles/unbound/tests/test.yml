@@ -1,7 +1,0 @@
----
-- name: Bastion Setup
-  hosts: bastion
-  vars_files:
-    - play_vars.yml
-  roles:
-    - unbound
