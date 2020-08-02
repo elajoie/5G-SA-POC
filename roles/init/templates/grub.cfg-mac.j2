@@ -4,6 +4,6 @@ menuentry 'OpenShift {{ ocp_release }} RHCOS' {
   initrdefi initramfs
 }
 menuentry '{{ rhel_version }} with CDN' {
-  linuxefi {{ rhel_version }}/vmlinuz ip=dhcp inst.repo=http://{{ srv_ip }}:8080/{{ rhel_version }}  inst.ks=http://{{ srv_ip }}:8080/kickstarts/ks.cfg-01-{{ item.macaddr | hwaddr('eui48') | lower }}
+  linuxefi {{ rhel_version }}/vmlinuz ip=dhcp inst.repo=http://{{ srv_ip }}:8080/{{ rhel_version }} inst.ks=http://{{ srv_ip }}:8080/kickstarts/ks.cfg-01-{{ item.macaddr | hwaddr('eui48') | lower }}
   initrdefi {{ rhel_version }}/initrd.img
 }
