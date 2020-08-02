@@ -16,9 +16,8 @@
         zone: internal
         state: enabled
         permanent: yes
-        port: "{{ item }}"
-      with_items:
-        - 8080/tcp
+        immediate: yes
+        port: 8080/tcp
 
     - name: Ensure the default Apache port is 8080
       lineinfile:
