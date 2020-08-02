@@ -20,6 +20,13 @@
       with_items:
         - 8080/tcp
 
+    - name: Ensure the default Apache port is 8080
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^Listen '
+        insertafter: '^#Listen '
+        line: Listen 8080
+
     - name: SELinux role to allow HAProxy to access ports 8080
       include_role:
         name: rhel-system-roles.selinux
