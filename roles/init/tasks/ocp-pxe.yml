@@ -62,7 +62,7 @@
     - name: Copy over files for {{ rhel_version }} booting
       copy:
         remote_src: yes
-        src: "{{ boot_dir }}{{ item }}"
+        src: "{{ boot_dir }}/{{ item }}"
         dest: "{{ tftp_dir }}/{{ rhel_version}}/{{ item }}"
       with_items: "{{ rhel_bootfiles }}"
 
