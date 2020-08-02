@@ -19,7 +19,7 @@
         permanent: yes
         state: enabled
         immediate: yes
-        zone: public
+        zone: internal
       with_items:
         - 80/tcp
         - 443/tcp
