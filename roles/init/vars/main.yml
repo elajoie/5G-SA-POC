@@ -1,6 +1,5 @@
 ---
-srv_interface: "enp3s0"
-srv_ip: "192.168.1.2"
+srv_ip: "192.168.1.1"
 nodes_subnet24: "192.168.1"
 baseName: "lab"
 baseDomain: "local"
@@ -166,7 +165,7 @@ nodes:
       macaddr: "00:11:32:b4:b2:a4"
       disk: "sda"
       boot: "bios"
-      
+
 dhcp:
   gateway: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
   broadcast: "{{ nodes_subnet24 | default ('192.168.126')}}.255"
