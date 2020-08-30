@@ -29,9 +29,3 @@ etcd-{{ loop.index0 }} IN A {{ m.ipaddr }}
 {% for m in nodes.masters %}
 _etcd-server-ssl._tcp 3600 IN SRV 0 10 2380 etcd-{{ loop.index0 }}.{{ baseName }}.{{ baseDomain }}.
 {% endfor %}
-
-###### auto.local subnet ######
-
-{% for a in nodes.auto %}
-{{ a.name }} IN A {{ a.ipaddr }}
-{% endfor %}

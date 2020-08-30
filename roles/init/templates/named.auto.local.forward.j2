@@ -7,8 +7,7 @@ $TTL 1W
 			1W )	; minimum (1 week)
 @	IN	NS	gw.auto.local.
 ;
-gw.auto.local IN A 172.16.66.1
-
+gw IN A 172.16.66.1
 {% for a in nodes.auto %}
 {{ a.name }} IN A {{ a.ipaddr }}
 {% endfor %}
