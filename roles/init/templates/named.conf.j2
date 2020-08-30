@@ -41,6 +41,14 @@ zone "{{ srv_ip.split('.')[2] }}.{{ srv_ip.split('.')[1] }}.{{ srv_ip.split('.')
     allow-query { any; };
 };
 
+zone "auto.local" IN {
+	type	master;
+	file	"named.auto.local.forward";
+	allow-update { none; };
+    allow-query { any; };
+};
+
+
 include "/etc/named.rfc1912.zones";
 include "/etc/named.root.key";
 include "/etc/named.adblock";

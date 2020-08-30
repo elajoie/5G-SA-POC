@@ -20,8 +20,8 @@ api-int IN A {{ srv_ip  }}
 {% for w in nodes.workers %}
 {{ w.name }} IN A {{ w.ipaddr }}
 {% endfor %}
-{% for e in nodes.extra %}
-{{ e.name }} IN A {{ e.ipaddr }}
+{% for l in nodes.lab %}
+{{ l.name }} IN A {{ l.ipaddr }}
 {% endfor %}
 {% for m in nodes.masters %}
 etcd-{{ loop.index0 }} IN A {{ m.ipaddr }}
@@ -30,3 +30,8 @@ etcd-{{ loop.index0 }} IN A {{ m.ipaddr }}
 _etcd-server-ssl._tcp 3600 IN SRV 0 10 2380 etcd-{{ loop.index0 }}.{{ baseName }}.{{ baseDomain }}.
 {% endfor %}
 
+###### auto.local subnet ######
+
+{% for a in nodes.auto %}
+{{ a.name }} IN A {{ a.ipaddr }}
+{% endfor %}

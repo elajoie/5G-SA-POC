@@ -73,12 +73,19 @@ nodes:
       disk: "nvme0n1"
       boot: "uefi"
       nic_pxe: eno7
-  extra:
-    - name: "netsrv"
+  lab:
+    - name: "gw"
+      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
+      netmask: "255.255.255.0"
+      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
+      macaddr: "a0:36:9f:3f:e3:14"
+      disk: "nvme0n1"
+      boot: "uefi"
+    - name: "ha"
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.2"
       netmask: "255.255.255.0"
       gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
-      macaddr: "1c:69:7a:38:a9:87"
+      macaddr: "52:54:00:b0:3c:0f"
       disk: "nvme0n1"
       boot: "uefi"
     - name: "kvm1"
@@ -151,7 +158,15 @@ nodes:
       macaddr: "00:11:32:b4:b2:a3"
       disk: "sda"
       boot: "bios"
-
+  auto:
+    - name: nas1
+      ipaddr: "172.16.66.20"
+      netmask: "255.255.255.0"
+      gw: "172.16.66.1"
+      macaddr: "00:11:32:b4:b2:a4"
+      disk: "sda"
+      boot: "bios"
+      
 dhcp:
   gateway: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
   broadcast: "{{ nodes_subnet24 | default ('192.168.126')}}.255"
