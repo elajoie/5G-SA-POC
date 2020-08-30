@@ -1,6 +1,13 @@
 default-lease-time 600;
 max-lease-time 7200;
 authoritative;
+next-server {{ srv_ip }};
+option space pxelinux;
+option pxelinux.magic code 208 = string;
+option pxelinux.configfile code 209 = text;
+option pxelinux.pathprefix code 210 = text;
+option pxelinux.reboottime code 211 = unsigned integer 32;
+option architecture-type code 93 = unsigned integer 16;
 
 subnet {{ dhcp.subnet }} netmask {{ dhcp.netmask }} {
     range dynamic-bootp {{ dhcp.poolstart }} {{ dhcp.poolend }};
@@ -8,13 +15,6 @@ subnet {{ dhcp.subnet }} netmask {{ dhcp.netmask }} {
     option routers {{ dhcp.gateway }};
     option domain-name     "{{ baseName }}.{{ baseDomain }}";
     option domain-name-servers     {{ srv_ip }};
-    next-server {{ srv_ip }};
-    option space pxelinux;
-    option pxelinux.magic code 208 = string;
-    option pxelinux.configfile code 209 = text;
-    option pxelinux.pathprefix code 210 = text;
-    option pxelinux.reboottime code 211 = unsigned integer 32;
-    option architecture-type code 93 = unsigned integer 16;
 
     class "UEFI-64-1" {
     match if substring(option vendor-class-identifier, 0, 20) = "PXEClient:Arch:00007";
