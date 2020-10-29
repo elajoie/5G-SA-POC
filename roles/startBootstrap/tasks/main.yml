@@ -17,15 +17,18 @@
   command: "virsh undefine bootstrap"
   ignore_errors: yes
 
-- name: Setup OCP bootstrap VM
+- name: Setup OCP Master and Worker VMs
   command: "virt-install
-    --name bootstrap
+    --name {{ item.name }}
     --disk size=120
-    --ram 16000
+    --ram 16384
     --cpu host
     --vcpus 4
     --os-type linux
     --os-variant rhel8.2
-    --network network=br0,mac=52:54:00:d8:6f:16
+    --network network=br0,mac={{ item.macaddr }}
+    --boot uefi
     --pxe
     --noautoconsole"
+  with_items:
+    - "{{  nodes.bootstrap  }}"
