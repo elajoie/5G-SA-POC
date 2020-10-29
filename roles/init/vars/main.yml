@@ -10,7 +10,7 @@ nodes:
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.10"
       netmask: "255.255.255.0"
       gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
-      macaddr: "52:54:00:d8:6f:16"
+      macaddr: "52:54:00:d0:6f:16"
       disk: "vda"
       boot: "uefi"
       nic_pxe: enp1s0
@@ -19,7 +19,7 @@ nodes:
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.11"
       netmask: "255.255.255.0"
       gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
-      macaddr: "0c:c4:7a:20:60:c8"
+      macaddr: "52:54:00:d1:6f:16"
       disk: "vda"
       boot: "uefi"
       nic_pxe: enp1s0
@@ -27,7 +27,7 @@ nodes:
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.12"
       netmask: "255.255.255.0"
       gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
-      macaddr: "0c:c4:7a:20:61:c8"
+      macaddr: "52:54:00:d2:6f:16"
       disk: "vda"
       boot: "uefi"
       nic_pxe: enp1s0
@@ -35,7 +35,7 @@ nodes:
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.13"
       netmask: "255.255.255.0"
       gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
-      macaddr: "3c:fd:fe:9e:7e:21"
+      macaddr: "52:54:00:d3:6f:16"
       disk: "vda"
       boot: "uefi"
       nic_pxe: enp1s0
@@ -44,7 +44,7 @@ nodes:
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.21"
       netmask: "255.255.255.0"
       gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
-      macaddr: "3c:fd:fe:9e:7b:a9"
+      macaddr: "52:54:00:d4:6f:16"
       disk: "vda"
       boot: "uefi"
       nic_pxe: enp1s0
@@ -52,7 +52,7 @@ nodes:
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.22"
       netmask: "255.255.255.0"
       gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
-      macaddr: "3c:fd:fe:aa:46:60"
+      macaddr: "52:54:00:d5:6f:16"
       disk: "vda"
       boot: "uefi"
       nic_pxe: enp1s0
@@ -60,7 +60,7 @@ nodes:
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.23"
       netmask: "255.255.255.0"
       gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
-      macaddr: "3c:fd:fe:ab:b0:38"
+      macaddr: "52:54:00:d6:6f:16"
       disk: "vda"
       boot: "uefi"
       nic_pxe: enp1s0
@@ -143,20 +143,6 @@ nodes:
       macaddr: "74:83:c2:da:2e:6c"
       disk: "sda"
       boot: "bios"
-    - name: "iptv"
-      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.35"
-      netmask: "255.255.255.0"
-      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
-      macaddr: "ac:6f:bb:5d:58:d6"
-      disk: "sda"
-      boot: "bios"
-    - name: "nas1"
-      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.20"
-      netmask: "255.255.255.0"
-      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
-      macaddr: "00:11:32:b4:b2:a3"
-      disk: "sda"
-      boot: "bios"
   auto:
     - name: nas1
       ipaddr: "172.16.66.20"
@@ -189,7 +175,7 @@ ocp_folders:
   - "{{ folders_pxe }}"
   - /root/bin
 
-ocp_release: "4.5.6"
+ocp_release: "4.6.1"
 
 #https://unix.stackexchange.com/questions/363878/which-selinux-policies-apply-to-haproxy
 selinux_policy: targeted
