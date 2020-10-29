@@ -1,4 +1,6 @@
 ---
+- include_vars: "../../../vars/vault"
+- include_vars: "../../../vars/main.yml"
 - hosts: localhost
 #- name: Task to boot a sydddddstem using an ISO from an HP iLO interface only if the system is an HP server
 #  hpilo_boot:
