@@ -162,9 +162,9 @@ dhcp:
 
 ocp_mirror: "https://mirror.openshift.com/pub/openshift-v4"
 
-ocp_metal: "{{ ocp_mirror }}/dependencies/rhcos/4.{{ ocp_release.split('.')[1] | lower }}/latest/rhcos-{{ ocp_release }}-x86_64-metal.x86_64.raw.gz"
-ocp_initramfs: "{{ ocp_mirror }}/dependencies/rhcos/4.{{ ocp_release.split('.')[1] | lower }}/latest/rhcos-{{ ocp_release }}-x86_64-installer-initramfs.x86_64.img"
-ocp_kernel: "{{ ocp_mirror }}/dependencies/rhcos/4.{{ ocp_release.split('.')[1] | lower }}/latest/rhcos-{{ ocp_release }}-x86_64-installer-kernel-x86_64"
+ocp_rootfs: "{{ ocp_mirror }}/dependencies/rhcos/4.{{ ocp_release.split('.')[1] | lower }}/latest/rhcos-{{ ocp_release }}-x86_64-live-rootfs.x86_64.raw.gz"
+ocp_initramfs: "{{ ocp_mirror }}/dependencies/rhcos/4.{{ ocp_release.split('.')[1] | lower }}/latest/rhcos-{{ ocp_release }}-x86_64-live-initramfs.x86_64.img"
+ocp_kernel: "{{ ocp_mirror }}/dependencies/rhcos/4.{{ ocp_release.split('.')[1] | lower }}/latest/rhcos-{{ ocp_release }}-x86_64-live-kernel-x86_64"
 
 ign_folder: /var/www/html/ignition
 ocp_install_path: "/root/ocp"
