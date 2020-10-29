@@ -16,7 +16,7 @@
   ignore_errors: yes
 
 - name: Clean out old bootstrap
-  command: "virsh undefine bootstrap"
+  command: "virsh undefine --nvram bootstrap"
   ignore_errors: yes
 
 - name: Setup OCP Master and Worker VMs
