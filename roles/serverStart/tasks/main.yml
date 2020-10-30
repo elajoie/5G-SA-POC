@@ -5,32 +5,23 @@
   redfish_command:
     category: Systems
     command: PowerForceOff
-    baseuri: "{{ hostvars[item]['baseuri'] }}"
-    username: "{{ lookup('vars', 'vault_' + item + '_user') }}"
-    password: "{{ lookup('vars', 'vault_' + item + '_pass') }}"
-  register: bios_attribute
-  loop: "{{ groups['kvm'] }}"
-  when: hostvars[item]['redfish'] == 'true'
+    baseuri: 192.168.1.42
+    username: admin
+    password: "{{ vault_bmc_pass }}"
 
 - name: Set server to PXE boot
   redfish_command:
     category: Systems
     command: SetOneTimeBoot
     bootdevice: "Pxe"
-    baseuri: "{{ hostvars[item]['baseuri'] }}"
-    username: "{{ lookup('vars', 'vault_' + item + '_user') }}"
-    password: "{{ lookup('vars', 'vault_' + item + '_pass') }}"
-  register: bios_attribute
-  loop: "{{ groups['kvm'] }}"
-  when: hostvars[item]['redfish'] == 'true'
+    baseuri: 192.168.1.42
+    username: admin
+    password: "{{ vault_bmc_pass }}"
 
 - name: Power On
   redfish_command:
     category: Systems
     command: PowerOn
-    baseuri: "{{ hostvars[item]['baseuri'] }}"
-    username: "{{ lookup('vars', 'vault_' + item + '_user') }}"
-    password: "{{ lookup('vars', 'vault_' + item + '_pass') }}"
-  register: bios_attribute
-  loop: "{{ groups['kvm'] }}"
-  when: hostvars[item]['redfish'] == 'true'
+    baseuri: 192.168.1.42
+    username: admin
+    password: "{{ vault_bmc_pass }}"
