@@ -8,15 +8,27 @@
     state: latest
   
 - name: Clean out old bootstrap
-  command: "virsh destroy bootstrap"
+  command: "virsh destroy {{ item.name }}"
+  with_items:
+    - "{{  nodes.bootstrap  }}"
+    - "{{  nodes.masters  }}"
+    - "{{  nodes.workers  }}"
   ignore_errors: yes
 
 - name: Clean out old bootstrap images
-  command: "rm -f /var/lib/libvirt/images/bootstrap*"
+  command: "rm -f /var/lib/libvirt/images/{{ item.name }}*"
+  with_items:
+    - "{{  nodes.bootstrap  }}"
+    - "{{  nodes.masters  }}"
+    - "{{  nodes.workers  }}"
   ignore_errors: yes
 
 - name: Clean out old bootstrap
-  command: "virsh undefine --nvram bootstrap"
+  command: "virsh undefine --nvram {{ item.name }}"
+  with_items:
+    - "{{  nodes.bootstrap  }}"
+    - "{{  nodes.masters  }}"
+    - "{{  nodes.workers  }}"
   ignore_errors: yes
 
 - name: Setup OCP Master and Worker VMs
@@ -34,3 +46,5 @@
     --noautoconsole"
   with_items:
     - "{{  nodes.bootstrap  }}"
+    - "{{  nodes.masters  }}"
+    - "{{  nodes.workers  }}"
