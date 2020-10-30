@@ -1,7 +1,7 @@
 ---
 - include_vars: "../../../vars/vault"
 - include_vars: "../../../vars/main.yml"
-- hosts: localhost
+- hosts: all
 #- name: Task to boot a sydddddstem using an ISO from an HP iLO interface only if the system is an HP server
 #  hpilo_boot:
 #    host: YOUR_ILO_ADDRESS
@@ -11,7 +11,7 @@
 #    image: http://some-web-server/iso/boot.iso
 #  when: cmdb_hwmodel.startswith('HP ')
 #  delegate_to: localhost
-  tasks:
+tasks:
   - name: Powering on or rebooting the server for PXE
     hpilo_boot:
       host: "{{ item }}"
