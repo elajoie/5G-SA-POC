@@ -108,6 +108,9 @@ backend openshift_router_http
 {% for w in nodes.workers %}
     server {{ w.name }} {{ w.name }}.{{ baseName }}.{{ baseDomain }}:80 check
 {% endfor %}
+{% for w in nodes.workers_bm %}
+    server {{ w.name }} {{ w.name }}.{{ baseName }}.{{ baseDomain }}:80 check
+{% endfor %}
 
 backend bastion_http
     mode tcp
@@ -125,6 +128,9 @@ frontend https
 backend openshift_router_https
     mode tcp
 {% for w in nodes.workers %}
+    server {{ w.name }} {{ w.name }}.{{ baseName }}.{{ baseDomain }}:443 check
+{% endfor %}
+{% for w in nodes.workers_bm %}
     server {{ w.name }} {{ w.name }}.{{ baseName }}.{{ baseDomain }}:443 check
 {% endfor %}
 

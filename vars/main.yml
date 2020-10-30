@@ -64,6 +64,7 @@ nodes:
       disk: "vda"
       boot: "uefi"
       nic_pxe: enp1s0
+  workers_bm:
     - name: "worker4"
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.24"
       netmask: "255.255.255.0"
@@ -72,6 +73,14 @@ nodes:
       disk: "nvme0n1"
       boot: "uefi"
       nic_pxe: eno7
+    - name: "worker5"
+      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.25"
+      netmask: "255.255.255.0"
+      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
+      macaddr: "a0:ce:c8:0f:be:0b"
+      disk: "nvme0n1"
+      boot: "uefi"
+      nic_pxe: enp1s0
   lab:
     - name: "gw"
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.1"

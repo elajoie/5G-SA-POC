@@ -4,7 +4,7 @@ label rhcos
 menu label ^Install OpenShift {{ ocp_release }}
 menu default
   kernel tftp://{{ srv_ip }}/kernel
-  append ip=dhcp rd.neednet=1 initrd=tftp://{{ srv_ip }}/initramfs console=tty0 console=ttyS0 coreos.inst=yes coreos.live.rootfs_url=http://{{ srv_ip }}:8080/images/rootfs coreos.inst.ignition_url=http://{{ srv_ip }}:8080/ignition/worker.ign
+  append initrd=tftp://{{ srv_ip }}/initramfs coreos.inst=yes coreos.live.rootfs_url=http://{{ srv_ip }}:8080/images/rootfs coreos.inst.ignition_url=http://{{ srv_ip }}:8080/ignition/worker.ign
 label rhel
 menu label Install system with {{ rhel_version }}
   kernel tftp://{{ srv_ip }}/{{ rhel_version }}/vmlinuz

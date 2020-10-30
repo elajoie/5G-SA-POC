@@ -84,6 +84,7 @@
       with_items:
         - "{{ nodes.masters }}"
         - "{{ nodes.workers }}"
+        - "{{ nodes.workers_bm }}"
         - "{{ nodes.bootstrap }}"
 
     - name: Set up BIOS cfg boot files
@@ -94,6 +95,7 @@
       with_items:
         - "{{ nodes.masters }}"
         - "{{ nodes.workers }}"
+        - "{{ nodes.workers_bm }}"
         - "{{ nodes.bootstrap }}"
 
     - name: Set up BIOS cfg boot files
@@ -110,6 +112,7 @@
       with_items:
         - "{{ nodes.masters }}"
         - "{{ nodes.workers }}"
+        - "{{ nodes.workers_bm }}"
         - "{{ nodes.bootstrap }}"
 
     - name: Start and ebable TFTP and xinetd service

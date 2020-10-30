@@ -61,6 +61,14 @@ host {{ w.name }}.lab.local {
 }
 {% endfor %}
 
+{% for w in nodes.workers_bm %}
+host {{ w.name }}.lab.local {
+	option host-name "{{ w.name }}.{{ baseName }}.{{ baseDomain }}";
+	hardware ethernet {{ w.macaddr }};
+	fixed-address {{ w.ipaddr }};
+}
+{% endfor %}
+
 {% for l in nodes.lab %}
 host {{ l.name }}.lab.local {
 	option host-name "{{ l.name }}.{{ baseName }}.{{ baseDomain }}";

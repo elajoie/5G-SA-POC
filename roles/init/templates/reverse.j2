@@ -19,6 +19,9 @@ $TTL 1W
 {% for w in nodes.workers %}
 {{ w.ipaddr.split('.')[3] }}	IN	PTR	{{ w.name }}.{{ baseName }}.{{ baseDomain }}.
 {% endfor %}
+{% for w in nodes.workers_bm %}
+{{ w.ipaddr.split('.')[3] }}	IN	PTR	{{ w.name }}.{{ baseName }}.{{ baseDomain }}.
+{% endfor %}
 {% for l in nodes.lab %}
 {{ l.ipaddr.split('.')[3] }}	IN	PTR	{{ l.name }}.{{ baseName }}.{{ baseDomain }}.
 {% endfor %}
