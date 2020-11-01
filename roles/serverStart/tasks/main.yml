@@ -18,10 +18,21 @@
     username: admin
     password: "{{ vault_bmc_pass }}"
 
-- name: Power On
-  redfish_command:
+#- name: Power On
+#  redfish_command:
+#    category: Systems
+#    command: PowerOn
+#    baseuri: 192.168.1.42
+#    username: admin
+#    password: "{{ vault_bmc_pass }}"
+
+- name: Enable PXE Boot for NIC1 using deprecated options
+  community.general.redfish_config:
     category: Systems
-    command: PowerOn
-    baseuri: 192.168.1.42
-    username: admin
-    password: "{{ vault_bmc_pass }}"
+    command: SetBiosAttributes
+    resource_id: 437XR1138R2
+    bios_attribute_name: PxeDev1EnDis
+    bios_attribute_value: Enabled
+    baseuri: "{{ baseuri }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
