@@ -18,10 +18,10 @@
     username: admin
     password: "{{ vault_bmc_pass }}"
 
-#- name: Power On
-#  redfish_command:
-#    category: Systems
-#    command: PowerOn
-#    baseuri: 192.168.1.42
-#    username: admin
-#    password: "{{ vault_bmc_pass }}"
+- name: Power On
+  redfish_command:
+    category: Systems
+    command: PowerOn
+    baseuri: 192.168.1.42
+    username: admin
+    password: "{{ vault_bmc_pass }}"
