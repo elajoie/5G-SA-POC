@@ -16,7 +16,7 @@
   ignore_errors: yes
 
 - name: Clean out old bootstrap images
-  command: "rm -f /var/lib/libvirt/images/{{ item.name }}*"
+  command: "rm -f /var/lib/libvirt/images/{{ item.name }}.qcow2"
   with_items:
     - "{{  nodes.bootstrap  }}"
     - "{{  nodes.masters  }}"
