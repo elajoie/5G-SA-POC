@@ -15,18 +15,18 @@
     - "{{  nodes.workers  }}"
   ignore_errors: yes
 
-- name: Remove QCOWs
-  file:
-    path: "/var/lib/libvirt/images/{{ item.name }}.qcow2"
-    sate: absent
+- name: Clean out old bootstrap
+  command: "virsh undefine --nvram {{ item.name }}"
   with_items:
     - "{{  nodes.bootstrap  }}"
     - "{{  nodes.masters  }}"
     - "{{  nodes.workers  }}"
   ignore_errors: yes
 
-- name: Clean out old bootstrap
-  command: "virsh undefine --nvram {{ item.name }}"
+- name: Remove QCOWs
+  file:
+    path: "/var/lib/libvirt/images/{{ item.name }}.qcow2"
+    state: absent
   with_items:
     - "{{  nodes.bootstrap  }}"
     - "{{  nodes.masters  }}"
