@@ -9,6 +9,10 @@
     username: admin
     password: "{{ vault_bmc_pass }}"
 
+- name: Pause for 30 sec
+  pause:
+    seconds: 30
+
 - name: Set server to PXE boot
   redfish_command:
     category: Systems
