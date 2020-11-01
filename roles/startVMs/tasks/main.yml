@@ -15,8 +15,10 @@
     - "{{  nodes.workers  }}"
   ignore_errors: yes
 
-- name: Clean out old bootstrap images
-  command: "rm -f /var/lib/libvirt/images/{{ item.name }}.qcow2"
+- name: Remove QCOWs
+  file:
+    path: "/var/lib/libvirt/images/{{ item.name }}.qcow2"
+    sate: absent
   with_items:
     - "{{  nodes.bootstrap  }}"
     - "{{  nodes.masters  }}"
