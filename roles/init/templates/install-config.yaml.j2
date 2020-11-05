@@ -12,17 +12,14 @@ metadata:
   name: {{ baseName }}
 networking:
   networkType: OVNKubernetes
-  machineNetwork:
-  - cidr: 10.0.0.0/16
-  - cidr: fc00::/48
   clusterNetwork:
   - cidr: 10.128.0.0/14
     hostPrefix: 23
-  - cidr: fd01::/48
-    hostPrefix: 64
+#  - cidr: fd01::/48
+#    hostPrefix: 64
   serviceNetwork:
   - 172.30.0.0/16
-  - fd02::/112
+#  - fd02::/112
 platform:
   none: {}
 pullSecret: '{{ pull_secret.json | tojson | replace(' ', '') | replace('\n', '') }}'
