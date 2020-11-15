@@ -1,8 +1,12 @@
 ---
 # tasks file for createVMs
 - include_vars:
-    "../../../vars/vault"
-    "../../../vars/main.yml"
+    file: "../../../vars/vault"
+    name: Vaults vars
+- include_vars:
+    file: "../../../vars/main.yml"
+    name: Main vars to include
+    
 - name: Install virt-install
   dnf:
     name: virt-install
