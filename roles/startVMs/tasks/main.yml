@@ -34,6 +34,14 @@
     - "{{  nodes.workers  }}"
   ignore_errors: yes
 
+- name: Remove OSD QCOWs
+  file:
+    path: "/var/lib/libvirt/images/{{ item.name }}-osd.qcow2"
+    state: absent
+  with_items:
+    - "{{  nodes.workers  }}"
+  ignore_errors: yes
+
 - name: Setup OCP Bootstrap & Master VMs
   command: "virt-install
     --name {{ item.name }}
@@ -55,7 +63,7 @@
   command: "virt-install
     --name {{ item.name }}
     --disk size=120
-    --disk path=/var/lib/libvirt/images/{{ item.name }}-osd,size=200
+    --disk path=/var/lib/libvirt/images/{{ item.name }}-osd.qcow2,size=200
     --ram 16384
     --cpu host
     --vcpus 4
