@@ -5,3 +5,4 @@
 
 - name: Restart VMs
   command: "virsh destroy bootstrap"
+  ignore_errors: yes
