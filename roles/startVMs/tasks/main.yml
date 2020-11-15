@@ -1,7 +1,8 @@
 ---
 # tasks file for createVMs
-- include_vars: "../../../vars/vault"
-- include_vars: "../../../vars/main.yml"
+- include_vars:
+    - "../../../vars/vault"
+    - "../../../vars/main.yml"
 - name: Install virt-install
   dnf:
     name: virt-install
@@ -33,7 +34,7 @@
     - "{{  nodes.workers  }}"
   ignore_errors: yes
 
-- name: Setup OCP Master and Worker VMs
+- name: Setup OCP Bootstrap & Master VMs
   command: "virt-install
     --name {{ item.name }}
     --disk size=120
@@ -49,4 +50,20 @@
   with_items:
     - "{{  nodes.bootstrap  }}"
     - "{{  nodes.masters  }}"
+
+- name: Setup OCP Worker VMs
+  command: "virt-install
+    --name {{ item.name }}
+    --disk size=120
+    --disk path=/var/lib/libvirt/images/{{ item.name }}-osd,size=200
+    --ram 16384
+    --cpu host
+    --vcpus 4
+    --os-type linux
+    --os-variant rhel8.2
+    --network network=br0,mac={{ item.macaddr }}
+    --boot uefi
+    --pxe
+    --noautoconsole"
+  with_items:
     - "{{  nodes.workers  }}"
