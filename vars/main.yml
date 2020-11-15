@@ -153,6 +153,13 @@ nodes:
       macaddr: "74:83:c2:da:2e:6c"
       disk: "sda"
       boot: "bios"
+    - name: "bmc-sm1"
+      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.42"
+      netmask: "255.255.255.0"
+      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
+      macaddr: "3c:ec:ef:40:d2:c9"
+      disk: "sda"
+      boot: "bios"
   auto:
     - name: nas1
       ipaddr: "172.16.66.20"
