@@ -4,4 +4,4 @@
 - include_vars: "../../../vars/main.yml"
 
 - name: Restart VMs
-  command: "virsh start bootstrap"
+  command: "virsh destroy bootstrap"
