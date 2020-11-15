@@ -1,0 +1,12 @@
+---
+# tasks file for createVMs
+- include_vars: "../../../vars/vault"
+- include_vars: "../../../vars/main.yml"
+
+- command: openshift-install --dir=/var/www/html/ignition/ wait-for bootstrap-complete
+  register: cmd
+  retries: 5
+  until: ("It is now safe to remove the bootstrap resources" in cmd.stderr)
+
+- name: Restart VMs
+  command: "virsh start bootstrap"
