@@ -75,3 +75,15 @@
     --noautoconsole"
   with_items:
     - "{{  nodes.workers  }}"
+
+# This is dirty but allows the restart of VMs after initialization - change time to fit your network speed
+- name: Pause for 120 sec
+  pause:
+    seconds: 120
+
+- name: Restart VMs
+  command: "virsh start {{ item.name }}"
+  with_items:
+    - "{{  nodes.bootstrap  }}"
+    - "{{  nodes.masters  }}"
+    - "{{  nodes.workers  }}"
