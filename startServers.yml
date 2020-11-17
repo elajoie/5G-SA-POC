@@ -3,5 +3,8 @@
   connection: local
   gather_facts: false
   remote_user: root
+    collections:
+#    - kubernetes.core
+    - community.general
   roles:
     - { role: serverStart }
