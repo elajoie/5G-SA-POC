@@ -15,7 +15,7 @@
 
 
 - name: Insert Virtual Media
-  redfish_command:
+  community.general.redfish_command:
     category: Manager
     command: VirtualMediaInsert
     baseuri: 192.168.1.42
