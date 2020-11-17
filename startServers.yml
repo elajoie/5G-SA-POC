@@ -3,7 +3,7 @@
   connection: local
   gather_facts: false
   remote_user: root
-    collections:
+  collections:
 #    - kubernetes.core
     - community.general
   roles:
