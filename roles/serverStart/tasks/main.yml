@@ -13,12 +13,27 @@
   pause:
     seconds: 30
 
+
+- name: Insert Virtual Media
+  community.general.redfish_command:
+    category: Manager
+    command: VirtualMediaInsert
+    baseuri: 192.168.1.42
+    username: admin
+    password: "{{ vault_bmc_pass }}"
+    virtual_media:
+      image_url: 'http://192.168.1.185:8888/api/assisted-install/v1/clusters/07df381a-181a-4054-9d3b-480f554efec9/downloads/image'
+      media_types:
+        - CD
+        - DVD
+    resource_id: BMC
+
 - name: Set server to PXE boot
   redfish_command:
     category: Systems
     command: SetOneTimeBoot
-    bootdevice: "Pxe"
-    baseuri: "192.168.1.42"
+    bootdevice: "Cd"
+    baseuri: 192.168.1.42
     username: admin
     password: "{{ vault_bmc_pass }}"
 
