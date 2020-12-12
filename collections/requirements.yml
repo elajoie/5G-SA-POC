@@ -1,5 +1,5 @@
 ---
 collections:
-  - name: community.general.github_key
+  - name: community.general
     version: 1.3.0
 ...
