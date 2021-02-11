@@ -38,7 +38,7 @@ subnet {{ dhcp.subnet }} netmask {{ dhcp.netmask }} {
 }
 
 {% for b in nodes.bootstrap %}
-host {{ b.name }}.lab.local {
+host {{ b.name }}.{{ baseDomain }} {
 	option host-name "{{ b.name }}.{{ baseName }}.{{ baseDomain }}";
 	hardware ethernet {{ b.macaddr }}; 
 	fixed-address {{ b.ipaddr }};
@@ -46,7 +46,7 @@ host {{ b.name }}.lab.local {
 {% endfor %}
 
 {% for m in nodes.masters %}
-host {{ m.name }}.lab.local {
+host {{ m.name }}.{{ baseDomain }} {
 	option host-name "{{ m.name }}.{{ baseName }}.{{ baseDomain }}";
 	hardware ethernet {{ m.macaddr }};
 	fixed-address {{ m.ipaddr }};
@@ -54,7 +54,7 @@ host {{ m.name }}.lab.local {
 {% endfor %}
 
 {% for w in nodes.workers %}
-host {{ w.name }}.lab.local {
+host {{ w.name }}.{{ baseDomain }} {
 	option host-name "{{ w.name }}.{{ baseName }}.{{ baseDomain }}";
 	hardware ethernet {{ w.macaddr }};
 	fixed-address {{ w.ipaddr }};
@@ -62,7 +62,7 @@ host {{ w.name }}.lab.local {
 {% endfor %}
 
 {% for w in nodes.workers_bm %}
-host {{ w.name }}.lab.local {
+host {{ w.name }}.{{ baseDomain }} {
 	option host-name "{{ w.name }}.{{ baseName }}.{{ baseDomain }}";
 	hardware ethernet {{ w.macaddr }};
 	fixed-address {{ w.ipaddr }};
@@ -70,7 +70,7 @@ host {{ w.name }}.lab.local {
 {% endfor %}
 
 {% for l in nodes.lab %}
-host {{ l.name }}.lab.local {
+host {{ l.name }}.{{ baseDomain }} {
 	option host-name "{{ l.name }}.{{ baseName }}.{{ baseDomain }}";
 	hardware ethernet {{ l.macaddr }};
 	fixed-address {{ l.ipaddr }};
@@ -80,16 +80,7 @@ host {{ l.name }}.lab.local {
 ##################### HERE WE START THE 172.16.66.0/24 SUBNET ############################
 subnet 172.16.66.0 netmask 255.255.255.0 {
     range dynamic-bootp 172.16.66.100 172.16.66.254;
-    option domain-name     "auto.local";
+    option domain-name     "auto.lajoie.org";
     option domain-name-servers     172.16.66.1;
     option broadcast-address 172.16.66.255;
 }
-
-{% for a in nodes.auto %}
-host {{ a.name }}.auto.local {
-	option host-name "{{ a.name }}.{{ baseName }}.{{ baseDomain }}";
-	hardware ethernet {{ a.macaddr }};
-	fixed-address {{ a.ipaddr }};
-}
-{% endfor %}
-

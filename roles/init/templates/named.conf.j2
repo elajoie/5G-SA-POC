@@ -29,25 +29,17 @@ zone "." IN {
 
 zone "{{ baseName }}.{{ baseDomain }}" IN {
 	type	master;
-	file	"named.lab.local.forward";
+	file	"named.{{ baseDomain }}.forward";
 	allow-update { none; };
     allow-query { any; };
 };
 
 zone "{{ srv_ip.split('.')[2] }}.{{ srv_ip.split('.')[1] }}.{{ srv_ip.split('.')[0] }}.in-addr.arpa" IN {
 	type	master;
-	file	"named.lab.local.reverse";
+	file	"named.{{ baseDomain }}.reverse";
 	allow-update { none; };
     allow-query { any; };
 };
-
-zone "auto.local" IN {
-	type	master;
-	file	"named.auto.local.forward";
-	allow-update { none; };
-    allow-query { any; };
-};
-
 
 include "/etc/named.rfc1912.zones";
 include "/etc/named.root.key";
