@@ -195,8 +195,8 @@ mount_point: /tmp/iso
 efi_dir: "{{ mount_point }}/EFI/BOOT"
 bios_dir: /usr/share/syslinux
 boot_dir: "{{ mount_point }}/images/pxeboot"
-boot_iso: rhel8.2.iso
-rhel_version: RHEL-8.2
+boot_iso: rhel8.3.iso
+rhel_version: RHEL-8.3
 
 efifiles:
   - BOOTX64.EFI
