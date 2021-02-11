@@ -11,7 +11,6 @@
           - haproxy
           - policycoreutils-python-utils
           - setools-console
-          - linux-system-roles
         state: latest
         
     - name: setup firewall ports
@@ -37,7 +36,7 @@
 
     - name: SELinux role to allow HAProxy to access ports 6443 and 22623
       include_role:
-        name: linux-system-roles.selinux
+        name: rhel-system-roles.selinux
 
     - name: Starting HAProxy service
       service:
