@@ -23,4 +23,4 @@ networking:
 platform:
   none: {}
 pullSecret: '{{ pull_secret.json | tojson | replace(' ', '') | replace('\n', '') }}'
-sshKey: '{{ sshkey.public_key }}'
+sshKey: '{{ vault_sshkey }}'
