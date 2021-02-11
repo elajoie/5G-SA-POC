@@ -38,7 +38,7 @@ subnet {{ dhcp.subnet }} netmask {{ dhcp.netmask }} {
 }
 
 {% for b in nodes.bootstrap %}
-host {{ b.name }}.{{ baseDomain }} {
+host {{ b.name }}.{{ baseName }}.{{ baseDomain }} {
 	option host-name "{{ b.name }}.{{ baseName }}.{{ baseDomain }}";
 	hardware ethernet {{ b.macaddr }}; 
 	fixed-address {{ b.ipaddr }};
@@ -46,7 +46,7 @@ host {{ b.name }}.{{ baseDomain }} {
 {% endfor %}
 
 {% for m in nodes.masters %}
-host {{ m.name }}.{{ baseDomain }} {
+host {{ m.name }}.{{ baseName }}.{{ baseDomain }} {
 	option host-name "{{ m.name }}.{{ baseName }}.{{ baseDomain }}";
 	hardware ethernet {{ m.macaddr }};
 	fixed-address {{ m.ipaddr }};
@@ -54,7 +54,7 @@ host {{ m.name }}.{{ baseDomain }} {
 {% endfor %}
 
 {% for w in nodes.workers %}
-host {{ w.name }}.{{ baseDomain }} {
+host {{ w.name }}.{{ baseName }}.{{ baseDomain }} {
 	option host-name "{{ w.name }}.{{ baseName }}.{{ baseDomain }}";
 	hardware ethernet {{ w.macaddr }};
 	fixed-address {{ w.ipaddr }};
@@ -62,7 +62,7 @@ host {{ w.name }}.{{ baseDomain }} {
 {% endfor %}
 
 {% for w in nodes.workers_bm %}
-host {{ w.name }}.{{ baseDomain }} {
+host {{ w.name }}.{{ baseName }}.{{ baseDomain }} {
 	option host-name "{{ w.name }}.{{ baseName }}.{{ baseDomain }}";
 	hardware ethernet {{ w.macaddr }};
 	fixed-address {{ w.ipaddr }};
@@ -70,7 +70,7 @@ host {{ w.name }}.{{ baseDomain }} {
 {% endfor %}
 
 {% for l in nodes.lab %}
-host {{ l.name }}.{{ baseDomain }} {
+host {{ l.name }}.{{ baseName }}.{{ baseDomain }} {
 	option host-name "{{ l.name }}.{{ baseName }}.{{ baseDomain }}";
 	hardware ethernet {{ l.macaddr }};
 	fixed-address {{ l.ipaddr }};

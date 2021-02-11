@@ -29,14 +29,14 @@ zone "." IN {
 
 zone "{{ baseName }}.{{ baseDomain }}" IN {
 	type	master;
-	file	"named.{{ baseDomain }}.forward";
+	file	"named.{{ baseName }}.{{ baseDomain }}.forward";
 	allow-update { none; };
     allow-query { any; };
 };
 
 zone "{{ srv_ip.split('.')[2] }}.{{ srv_ip.split('.')[1] }}.{{ srv_ip.split('.')[0] }}.in-addr.arpa" IN {
 	type	master;
-	file	"named.{{ baseDomain }}.reverse";
+	file	"named.{{ baseName }}.{{ baseDomain }}.reverse";
 	allow-update { none; };
     allow-query { any; };
 };

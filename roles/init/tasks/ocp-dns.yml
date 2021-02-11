@@ -48,7 +48,7 @@
     - name: Write out "{{ baseName }}.{{ baseDomain }}" zone file
       template:
         src: zonefile.j2
-        dest: "/var/named/named.{{ baseDomain }}.forward"
+        dest: "/var/named/named.{{ baseName }}.{{ baseDomain }}.forward"
         owner: root
         group: named
         mode: '0640'
@@ -56,7 +56,7 @@
     - name: Write out reverse zone file
       template:
         src: reverse.j2
-        dest: "/var/named/named.{{ baseDomain }}.reverse"
+        dest: "/var/named/named.{{ baseName }}.{{ baseDomain }}.reverse"
         owner: root
         group: named
         mode: '0640'
