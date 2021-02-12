@@ -70,7 +70,7 @@ nodes:
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.24"
       netmask: "255.255.255.0"
       gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
-      macaddr: "3c:ec:ef:40:d0:24"
+      macaddr: "3c:ec:ef:40:ca:18"
       disk: "nvme0n1"
       boot: "uefi"
       nic_pxe: eno7
