@@ -146,14 +146,6 @@ nodes:
       macaddr: "3c:ec:ef:6a:27:d6"
       disk: "sda"
       boot: "bios"
-  auto:
-    - name: nas1
-      ipaddr: "172.16.66.20"
-      netmask: "255.255.255.0"
-      gw: "172.16.66.1"
-      macaddr: "00:11:32:b4:b2:a4"
-      disk: "sda"
-      boot: "bios"
 
 dhcp:
   gateway: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
