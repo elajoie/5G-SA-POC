@@ -1,166 +1,139 @@
 ---
-
-srv_ip: "192.168.1.2"
-nodes_subnet24: "192.168.1"
+#srv_ip is the address where DHCP, DNS, and PXE services live
+srv_ip: "172.16.66.2"
+nodes_subnet24: "172.16.66"
+nodes_mask24: "255.255.255"
 baseName: "lab"
 baseDomain: "lajoie.org"
 
+#Node inventory used for most roles
 nodes:
   bootstrap:
     - name: "bootstrap"
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.10"
-      netmask: "255.255.255.0"
+      netmask: "{{ nodes_mask24 | default ('255.255.255')}}.0"
       gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
       macaddr: "52:54:00:d0:6f:16"
       disk: "vda"
-      boot: "uefi"
       nic_pxe: enp1s0
   masters:
     - name: "master1"
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.11"
-      netmask: "255.255.255.0"
+      netmask: "{{ nodes_mask24 | default ('255.255.255')}}.0"
       gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
       macaddr: "52:54:00:d1:6f:16"
       disk: "vda"
-      boot: "uefi"
       nic_pxe: enp1s0
     - name: "master2"
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.12"
-      netmask: "255.255.255.0"
+      netmask: "{{ nodes_mask24 | default ('255.255.255')}}.0"
       gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
       macaddr: "52:54:00:d2:6f:16"
       disk: "vda"
-      boot: "uefi"
       nic_pxe: enp1s0
     - name: "master3"
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.13"
-      netmask: "255.255.255.0"
+      netmask: "{{ nodes_mask24 | default ('255.255.255')}}.0"
       gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
       macaddr: "52:54:00:d3:6f:16"
       disk: "vda"
-      boot: "uefi"
       nic_pxe: enp1s0
   workers:
     - name: "worker1"
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.21"
-      netmask: "255.255.255.0"
+      netmask: "{{ nodes_mask24 | default ('255.255.255')}}.0"
       gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
       macaddr: "52:54:00:d4:6f:16"
       disk: "vda"
-      boot: "uefi"
       nic_pxe: enp1s0
     - name: "worker2"
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.22"
-      netmask: "255.255.255.0"
+      netmask: "{{ nodes_mask24 | default ('255.255.255')}}.0"
       gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
       macaddr: "52:54:00:d5:6f:16"
       disk: "vda"
-      boot: "uefi"
       nic_pxe: enp1s0
     - name: "worker3"
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.23"
-      netmask: "255.255.255.0"
+      netmask: "{{ nodes_mask24 | default ('255.255.255')}}.0"
       gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
       macaddr: "52:54:00:d6:6f:16"
       disk: "vda"
-      boot: "uefi"
       nic_pxe: enp1s0
   workers_bm:
     - name: "worker4"
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.24"
-      netmask: "255.255.255.0"
+      netmask: "{{ nodes_mask24 | default ('255.255.255')}}.0"
       gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
       macaddr: "3c:ec:ef:40:ca:18"
       disk: "nvme0n1"
-      boot: "uefi"
       nic_pxe: eno7
     - name: "worker5"
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.25"
-      netmask: "255.255.255.0"
+      netmask: "{{ nodes_mask24 | default ('255.255.255')}}.0"
       gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
       macaddr: "a0:ce:c8:0f:be:0b"
       disk: "nvme0n1"
-      boot: "uefi"
       nic_pxe: enp1s0
   lab:
     - name: "netsrv"
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.2"
-      netmask: "255.255.255.0"
+      netmask: "{{ nodes_mask24 | default ('255.255.255')}}.0"
       gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
-      macaddr: "9c:7b:ef:54:a4:cc"
+      macaddr: "3c:ec:ef:6a:21:bb"
       disk: "nvme0n1"
-      boot: "uefi"
-    - name: "kvm1"
-      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.3"
-      netmask: "255.255.255.0"
-      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
-      macaddr: "10:7b:44:91:a2:7c"
-      disk: "nvme0n1"
-      boot: "uefi"
-    - name: "kvm2"
-      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.4"
-      netmask: "255.255.255.0"
-      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
-      macaddr: "3c:ec:ef:6a:26:6c"
-      disk: "sda"
-      boot: "bios"
-    - name: "sat"
-      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.5"
-      netmask: "255.255.255.0"
-      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
-      macaddr: "52:54:00:17:e1:87"
-      disk: "vda"
-      boot: "bios"
     - name: "tower"
-      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.6"
-      netmask: "255.255.255.0"
+      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.3"
+      netmask: "{{ nodes_mask24 | default ('255.255.255')}}.0"
       gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
-      macaddr: "52:54:00:06:f2:75"
+      macaddr: "52:54:00:39:3c:c5"
       disk: "vda"
-      boot: "bios"
-    - name: "cloudkey"
-      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.30"
-      netmask: "255.255.255.0"
+    - name: "udm"
+      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
+      netmask: "{{ nodes_mask24 | default ('255.255.255')}}.0"
       gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
       macaddr: "74:83:c2:17:45:53"
       disk: "sda"
-      boot: "bios"
-    - name: "switch1"
-      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.31"
-      netmask: "255.255.255.0"
-      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
-      macaddr: "fc:ec:da:78:ad:ed"
-      disk: "sda"
-      boot: "bios"
     - name: "bmc-sm1"
       ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.42"
-      netmask: "255.255.255.0"
-      gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
-      macaddr: "3c:ec:ef:40:d2:c9"
-      disk: "sda"
-      boot: "bios"
-    - name: "bmc-sm2"
-      ipaddr: "{{ nodes_subnet24 | default ('192.168.126')}}.43"
-      netmask: "255.255.255.0"
+      netmask: "{{ nodes_mask24 | default ('255.255.255')}}.0"
       gw: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
       macaddr: "3c:ec:ef:6a:27:d6"
       disk: "sda"
-      boot: "bios"
 
+#Used by DHCP Service role
 dhcp:
   gateway: "{{ nodes_subnet24 | default ('192.168.126')}}.1"
   broadcast: "{{ nodes_subnet24 | default ('192.168.126')}}.255"
-  netmask: "255.255.255.0"
+  netmask: "{{ nodes_mask24 | default ('255.255.255')}}.0"
   poolstart: "{{ nodes_subnet24 | default ('192.168.126')}}.128"
   poolend: "{{ nodes_subnet24 | default ('192.168.126')}}.254"
   subnet: "{{ nodes_subnet24 | default ('192.168.126')}}.0"
 
-ocp_mirror: "https://mirror.openshift.com/pub/openshift-v4"
 
+#Used by all firewall plays in different roles
+#Fedora 34 defaults to FedoraServer
+firewall_zone: FedoraServer
+
+
+#Used by HTTPD & HAproxy services
+#https://unix.stackexchange.com/questions/363878/which-selinux-policies-apply-to-haproxy
+selinux_policy: targeted
+selinux_state: enforcing
+selinux_ports:
+  - { ports: '6443', proto: 'tcp', setype: 'http_port_t', state: 'present' }
+  - { ports: '22623', proto: 'tcp', setype: 'http_port_t', state: 'present' }
+  - { ports: '9000', proto: 'tcp', setype: 'http_port_t', state: 'present' }
+  - { ports: '8080', proto: 'tcp', setype: 'http_port_t', state: 'present' }
+#check results via semanage port -l | grep -E 'http_cache_port_t|commplex_main_port_t|http_port_t'
+
+
+
+#OCP variables used for OCP base UPI setup
+ocp_mirror: "https://mirror.openshift.com/pub/openshift-v4"
 ocp_rootfs: "{{ ocp_mirror }}/dependencies/rhcos/4.{{ ocp_release.split('.')[1] | lower }}/latest/rhcos-{{ ocp_release }}-x86_64-live-rootfs.x86_64.img"
 ocp_initramfs: "{{ ocp_mirror }}/dependencies/rhcos/4.{{ ocp_release.split('.')[1] | lower }}/latest/rhcos-{{ ocp_release }}-x86_64-live-initramfs.x86_64.img"
 ocp_kernel: "{{ ocp_mirror }}/dependencies/rhcos/4.{{ ocp_release.split('.')[1] | lower }}/latest/rhcos-{{ ocp_release }}-x86_64-live-kernel-x86_64"
-
 ign_folder: /var/www/html/ignition
 ocp_install_path: "/root/ocp"
 
@@ -172,17 +145,7 @@ ocp_folders:
 
 ocp_release: "4.7.0"
 
-#https://unix.stackexchange.com/questions/363878/which-selinux-policies-apply-to-haproxy
-selinux_policy: targeted
-selinux_state: enforcing
-selinux_ports:
-  - { ports: '6443', proto: 'tcp', setype: 'http_port_t', state: 'present' }
-  - { ports: '22623', proto: 'tcp', setype: 'http_port_t', state: 'present' }
-  - { ports: '9000', proto: 'tcp', setype: 'http_port_t', state: 'present' }
-  - { ports: '8080', proto: 'tcp', setype: 'http_port_t', state: 'present' }
-  
-#check results via semanage port -l | grep -E 'http_cache_port_t|commplex_main_port_t|http_port_t'
-
+#PXE boot setup role vars
 mount_point: /tmp/iso
 efi_dir: "{{ mount_point }}/EFI/BOOT"
 bios_dir: /usr/share/syslinux

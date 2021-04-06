@@ -1,5 +1,31 @@
 ---
 - hosts: all
-  remote_user: root
+  vars_files:
+    - vars/main.yml
+    - vars/vault
+
   roles:
-    - { role: init }
+    - role: dhcp
+      tags: [ never, dhcp, bastion ]
+
+    - role: dns
+      tags: [ never, dns, bastion ]
+
+    - role: haproxy
+      tags: [ never, haproxy, bastion ]
+
+    - role: httpd
+      tags: [ never, httpd, bastion ]
+
+    - role: pxe
+      tags: [ never, pxe, bastion ]
+
+    # go here to get your long lived access toekn https://cloud.redhat.com/openshift/token
+    - role: ocp-prep
+      tags: [ never, ocp-prep, bastion ]
+
+    - role: startVMs
+      tags: [ never, startVMs ]
+
+    - role: stopBootstrap
+      tags: [ never, stopBootstrap ]

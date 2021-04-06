@@ -1,0 +1,72 @@
+---
+# tasks file for nfs
+- name: Install NFS
+  become: true
+  tags: install
+  block:
+
+    - name: Install needed packages
+      yum:
+        state: latest
+        name: "{{ item }}"
+      with_items:
+        - nfs-utils
+        - rpcbind
+
+    - name: Create mountable dirs
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0777
+        owner: nobody
+        group: nobody
+      with_items:
+        - /export
+        - /export/ocp/
+        - /export/ocp/static
+        - /export/ocp/static/registry
+        - /export/ocp/dynamic
+
+    - name: FIX permissions
+      shell: |
+        chmod  777 /export/*
+
+    - name: Configure /etc/exports
+      copy:
+        dest: "/etc/exports"
+        content: |
+          /export/ocp	*(rw,sync,no_root_squash)
+
+    - name: Enable nfs-server
+      systemd:
+        name: nfs-server
+        state: restarted
+        enabled: True
+
+    - name: Enable firewalld
+      systemd:
+        name: firewalld
+        state: started
+        enabled: True
+
+    - name: Get Firewalld ZONE
+      shell: "IFACE=$(nmcli con show '{{ srv_interface }}' | grep connection.interface-name | awk '{print $2}') ; ZONE=$(firewall-cmd --list-all-zones | grep -B 3 $IFACE | head -n 1 | awk '{print $1}') ; echo $ZONE"
+      register: firewalldzone
+
+    - name: Configure Firewalld
+      ignore_errors: yes
+      firewalld:
+        zone: "{{ firewalldzone.stdout }}"
+        state: enabled
+        permanent: yes
+        port: "{{ item }}"
+      with_items:
+        - 111/udp
+        - 111/tcp
+        - 2049/udp
+        - 2049/tcp
+
+    - name: Reload Firewalld
+      ignore_errors: yes
+      shell: |
+        firewall-cmd --reload

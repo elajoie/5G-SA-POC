@@ -1,0 +1,158 @@
+---
+# tasks file for pxe
+- name: Install PXE
+  become: true
+  tags: install
+  block:
+    - name: Install packages for TFTP
+      dnf:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - tftp-server
+        - xinetd
+        - syslinux
+        - httpd
+        
+    - name: Configure Firewalld
+      ignore_errors: yes
+      firewalld:
+        zone: "{{ firewall_zone }}"
+        state: enabled
+        permanent: yes
+        immediate: yes
+        port: 8080/tcp
+
+    - name: Ensure the default Apache port is 8080
+      lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^Listen '
+        insertafter: '^#Listen '
+        line: Listen 8080
+
+    - name: SELinux role to allow httpd to access ports 8080
+      include_role:
+        name: rhel-system-roles.selinux
+
+    - name: Starting services
+      service:
+        name: "{{ item }}"
+        enabled: yes
+        state: restarted
+      with_items:
+        - httpd
+
+    - name: setup firewall
+      firewalld:
+        service: tftp
+        permanent: yes
+        state: enabled
+        immediate: yes
+        zone: "{{ firewall_zone }}"
+
+#Put the boot iso in the web servers root directory manually when using tower
+    - name: "Copy over iso file to tftp server - {{ srv_ip }}"
+      copy:
+        remote_src: yes
+        src: "/root/{{ boot_iso }}"
+        dest: "/var/www/html/{{ boot_iso }}"
+
+# https://wiki.fogproject.org/wiki/index.php/BIOS_and_UEFI_Co-Existence
+
+    - name: Mount boot iso read-only
+      mount:
+        path: "{{ mount_point }}"
+        src: "/var/www/html/{{ boot_iso }}"
+        fstype: iso9660
+        opts: ro,noauto
+        state: mounted
+
+    - name: Copy over files for PXE UEFI
+      copy:
+        remote_src: yes
+        src: "{{ efi_dir }}/{{ item }}"
+        dest: "{{ tftp_dir }}/uefi/{{ item }}"
+      with_items: "{{ efifiles }}"
+
+    - name: Copy over files for PXE BIOS
+      copy:
+        remote_src: yes
+        src: "{{ bios_dir }}/{{ item }}"
+        dest: "{{ tftp_dir }}/pxelinux/{{ item }}"
+      with_items: "{{ biosfiles }}"
+
+    - name: Copy over files for {{ rhel_version }} repos
+      copy:
+        remote_src: yes
+        src: "{{ mount_point }}/images"
+        dest: "/var/www/html/{{ rhel_version }}/"
+
+    - name: Copy over files for {{ rhel_version }} booting
+      copy:
+        remote_src: yes
+        src: "{{ boot_dir }}/{{ item }}"
+        dest: "{{ tftp_dir }}/{{ rhel_version}}/{{ item }}"
+      with_items: "{{ rhel_bootfiles }}"
+
+    - name: Template a file for kickstart onto http server
+      template:
+        src: ks.cfg.j2
+        dest: /var/www/html/kickstarts/ks.cfg
+
+    - name: Template a file for grub menu onto tftp server
+      template:
+        src: grub.cfg.j2
+        dest: "{{ tftp_dir }}/uefi/grub.cfg"
+
+    - name: Template a file for custom kickstart onto http server
+      template:
+        src: ks.cfg-mac.j2
+        dest: "/var/www/html/kickstarts/ks.cfg-01-{{ item.macaddr | hwaddr('eui48') | lower }}"
+        mode: '755'
+      with_items:
+        - "{{ nodes.masters }}"
+        - "{{ nodes.workers }}"
+        - "{{ nodes.workers_bm }}"
+        - "{{ nodes.bootstrap }}"
+
+    - name: Set up BIOS cfg boot files
+      template:
+        src: pxelinux.cfg-mac.j2
+        dest: "{{ tftp_dir }}/pxelinux/pxelinux.cfg/01-{{ item.macaddr | hwaddr('eui48') | lower }}"
+        mode: '755'
+      with_items:
+        - "{{ nodes.masters }}"
+        - "{{ nodes.workers }}"
+        - "{{ nodes.workers_bm }}"
+        - "{{ nodes.bootstrap }}"
+
+    - name: Set up BIOS cfg boot files
+      template:
+        src: pxelinux.cfg.j2
+        dest: "{{ tftp_dir }}/pxelinux/pxelinux.cfg/default"
+        mode: '755'
+
+    - name: Template a file for custom grub menu onto tftp server
+      template:
+        src: grub.cfg-mac.j2
+        dest: "{{ tftp_dir }}/uefi/grub.cfg-01-{{ item.macaddr | hwaddr('eui48') | lower }}"
+        mode: '755'
+      with_items:
+        - "{{ nodes.masters }}"
+        - "{{ nodes.workers }}"
+        - "{{ nodes.workers_bm }}"
+        - "{{ nodes.bootstrap }}"
+
+    - name: Start and enable TFTP and xinetd service
+      service:
+        name: "{{ item }}"
+        state: restarted
+        enabled: yes
+      with_items:
+        - tftp.service
+        - xinetd.service
+
+    - name: Unmount boot iso
+      mount:
+        path: "{{ mount_point }}"
+        state: absent
