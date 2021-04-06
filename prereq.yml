@@ -14,9 +14,6 @@
     - role: haproxy
       tags: [ never, haproxy, bastion ]
 
-    - role: httpd
-      tags: [ never, httpd, bastion ]
-
     - role: pxe
       tags: [ never, pxe, bastion ]
 
